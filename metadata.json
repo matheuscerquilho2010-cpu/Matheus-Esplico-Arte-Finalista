@@ -1,0 +1,6 @@
+{
+  "name": "Studio MTS Artes",
+  "description": "Portfólio moderno para Designer Arte Finalista especializado em Sublimação, DTF, DTG e Serigrafia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
