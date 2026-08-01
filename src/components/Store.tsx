@@ -79,6 +79,9 @@ export default function Store() {
           <motion.p className="text-gray-400 text-xs">
             Artes prontas para impulsionar suas vendas.
           </motion.p>
+          <motion.p className="text-brand-blue text-[10px] uppercase tracking-widest mt-2 font-semibold">
+            Imagens e cards atualizados todas as semanas
+          </motion.p>
         </div>
 
         {/* Filters and Search */}
