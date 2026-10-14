@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { artPacksCategories, artPacks } from '../data';
 import { ArtPack } from '../types';
-import { Search, ShoppingCart, Eye, Image as ImageIcon, X, MessageCircle, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ShoppingCart, Eye, Image as ImageIcon, X, MessageCircle, Download, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
 export default function Store() {
   const [activeCategory, setActiveCategory] = useState('Todos');
@@ -115,65 +115,103 @@ export default function Store() {
         </div>
 
         {/* List */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPacks.map((pack, index) => (
-            <motion.div
-              key={pack.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="glass rounded-2xl overflow-hidden flex flex-col"
-            >
-              <div className="relative aspect-video overflow-hidden bg-white/5 border-b border-white/10 flex items-center justify-center">
-                {pack.imageUrl ? (
-                  <img 
-                    src={pack.imageUrl} 
-                    alt={pack.title}
-                    className="w-full h-full object-cover transition-transform duration-500"
-                  />
-                ) : (
-                  <div className="flex flex-col items-center justify-center text-white/20">
-                    <ImageIcon size={32} className="mb-2" />
-                    <span className="text-[10px] uppercase tracking-widest">Imagem do Catálogo</span>
+        {filteredPacks.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredPacks.map((pack, index) => (
+              <motion.div
+                key={pack.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="glass rounded-2xl overflow-hidden flex flex-col"
+              >
+                <div className="relative aspect-video overflow-hidden bg-white/5 border-b border-white/10 flex items-center justify-center">
+                  {pack.imageUrl ? (
+                    <img 
+                      src={pack.imageUrl} 
+                      alt={pack.title}
+                      className="w-full h-full object-cover transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-white/20">
+                      <ImageIcon size={32} className="mb-2" />
+                      <span className="text-[10px] uppercase tracking-widest">Imagem do Catálogo</span>
+                    </div>
+                  )}
+                  <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-md px-2 py-1 rounded text-[10px] font-semibold text-white">
+                    {pack.category}
                   </div>
-                )}
-                <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-md px-2 py-1 rounded text-[10px] font-semibold text-white">
-                  {pack.category}
                 </div>
-              </div>
-              
-              <div className="p-4 flex flex-col">
-                <h3 className="text-sm font-bold mb-3 text-white">{pack.title}</h3>
                 
-                {pack.images && pack.images.length > 0 && (
-                  <div className="mb-4 overflow-x-auto pb-2 flex gap-2 snap-x snap-mandatory [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full">
-                    {pack.images.slice(0, 5).map((img, i) => (
-                      <div key={i} className="flex-shrink-0 w-12 h-12 rounded bg-white/5 snap-center border border-white/10 overflow-hidden relative">
-                        <img src={img} alt={`${pack.title} ${i + 1}`} className="w-full h-full object-cover opacity-70" loading="lazy" />
-                        {i === 4 && pack.images && pack.images.length > 5 && (
-                           <div className="absolute inset-0 bg-black/60 flex items-center justify-center text-[10px] font-bold text-white">
-                             +{pack.images.length - 5}
-                           </div>
-                        )}
-                      </div>
-                    ))}
+                <div className="p-4 flex flex-col">
+                  <h3 className="text-sm font-bold mb-3 text-white">{pack.title}</h3>
+                  
+                  {pack.images && pack.images.length > 0 && (
+                    <div className="mb-4 overflow-x-auto pb-2 flex gap-2 snap-x snap-mandatory [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full">
+                      {pack.images.slice(0, 5).map((img, i) => (
+                        <div key={i} className="flex-shrink-0 w-12 h-12 rounded bg-white/5 snap-center border border-white/10 overflow-hidden relative">
+                          <img src={img} alt={`${pack.title} ${i + 1}`} className="w-full h-full object-cover opacity-70" loading="lazy" />
+                          {i === 4 && pack.images && pack.images.length > 5 && (
+                             <div className="absolute inset-0 bg-black/60 flex items-center justify-center text-[10px] font-bold text-white">
+                               +{pack.images.length - 5}
+                             </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => setSelectedPack(pack)}
+                      className="flex-1 glass py-2.5 rounded-xl flex items-center justify-center gap-1.5 text-xs font-medium text-white hover:bg-white/10 transition-colors"
+                    >
+                      <Eye size={14} />
+                      Ver Detalhes
+                    </button>
                   </div>
-                )}
-                
-                <div className="flex gap-2">
-                  <button 
-                    onClick={() => setSelectedPack(pack)}
-                    className="flex-1 glass py-2.5 rounded-xl flex items-center justify-center gap-1.5 text-xs font-medium text-white hover:bg-white/10 transition-colors"
-                  >
-                    <Eye size={14} />
-                    Ver Detalhes
-                  </button>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="glass rounded-2xl p-6 text-center flex flex-col items-center justify-center gap-3 border border-white/10"
+          >
+            <div className="w-12 h-12 rounded-full bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue">
+              <Sparkles size={20} />
+            </div>
+            <h3 className="text-sm font-bold text-white">
+              Nenhum catálogo pronto em "{activeCategory !== 'Todos' ? activeCategory : searchQuery}"
+            </h3>
+            <p className="text-xs text-gray-400 max-w-xs leading-relaxed">
+              Criamos estampas e coleções personalizadas sob medida para sua confecção ou marca!
+            </p>
+            <div className="flex flex-col gap-2 mt-2 w-full max-w-xs">
+              <a
+                href={`https://wa.me/5515996526796?text=${encodeURIComponent(`Olá Matheus! Gostaria de encomendar artes personalizadas no tema ${activeCategory !== 'Todos' ? activeCategory : searchQuery}.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-brand-green hover:bg-[#1ebd5a] text-white py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-xs font-semibold transition-all shadow-[0_0_15px_rgba(37,211,102,0.2)]"
+              >
+                <MessageCircle size={15} />
+                Pedir Arte no WhatsApp
+              </a>
+              <button
+                onClick={() => {
+                  setActiveCategory('Todos');
+                  setSearchQuery('');
+                }}
+                className="w-full bg-white/10 hover:bg-white/20 text-white py-2.5 px-4 rounded-xl text-xs font-medium transition-colors"
+              >
+                Ver todos os catálogos
+              </button>
+            </div>
+          </motion.div>
+        )}
 
       </div>
 
@@ -361,10 +399,18 @@ export default function Store() {
                       a.download = `arte-${selectedPack.title}-${selectedImageIndex! + 1}.jpg`;
                       document.body.appendChild(a);
                       a.click();
+                      document.body.removeChild(a);
                       window.URL.revokeObjectURL(url);
                     })
                     .catch(() => {
-                      window.open(currentImg, '_blank');
+                      const a = document.createElement('a');
+                      a.href = currentImg;
+                      a.target = '_blank';
+                      a.rel = 'noopener noreferrer';
+                      a.download = `arte-${selectedPack.title}-${selectedImageIndex! + 1}.jpg`;
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
                     });
                 }}
               >

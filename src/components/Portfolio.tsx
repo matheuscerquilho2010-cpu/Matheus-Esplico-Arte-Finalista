@@ -256,10 +256,18 @@ export default function Portfolio() {
                         a.download = `portfolio-arte-${selectedIndex + 1}.jpg`;
                         document.body.appendChild(a);
                         a.click();
+                        document.body.removeChild(a);
                         window.URL.revokeObjectURL(url);
                       })
                       .catch(() => {
-                        window.open(activeItem.imageUrl, '_blank');
+                        const a = document.createElement('a');
+                        a.href = activeItem.imageUrl;
+                        a.target = '_blank';
+                        a.rel = 'noopener noreferrer';
+                        a.download = `portfolio-arte-${selectedIndex + 1}.jpg`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
                       });
                   }}
                 >
